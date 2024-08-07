@@ -58,7 +58,7 @@ describe("Truncate", () => {
     expect(actual).toEqual(expected);
   });
 
-  xtest("English language long", () => {
+  test("English language long", () => {
     const expected = "Hello";
     const actual = truncate("Hello there");
     expect(actual).toEqual(expected);
