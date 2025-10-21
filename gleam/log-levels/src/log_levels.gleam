@@ -1,11 +1,18 @@
+import gleam/string
+
 pub fn message(log_line: String) -> String {
-  todo
+  string.crop(log_line, ": ") |> string.drop_start(2) |> string.trim
 }
 
 pub fn log_level(log_line: String) -> String {
-  todo
+  case log_line {
+    "[ERROR]:" <> _ -> "error"
+    "[WARNING]:" <> _ -> "warning"
+    "[INFO]:" <> _ -> "info"
+    _ -> log_line
+  }
 }
 
 pub fn reformat(log_line: String) -> String {
-  todo
+  message(log_line) <> " (" <> log_level(log_line) <> ")"
 }
