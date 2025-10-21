@@ -1,12 +1,9 @@
-import gleam/string
+import gleam/string.{ends_with, lowercase, trim, uppercase}
 
 pub fn hey(remark: String) -> String {
-  let trimmed = string.trim(remark)
-  case
-    trimmed,
-    string.uppercase(trimmed) == remark && string.lowercase(trimmed) != remark,
-    string.ends_with(trimmed, "?")
-  {
+  let trimmed = trim(remark)
+  let is_yell = uppercase(trimmed) == remark && lowercase(trimmed) != remark
+  case trimmed, is_yell, ends_with(trimmed, "?") {
     "", _, _ -> "Fine. Be that way!"
     _, True, True -> "Calm down, I know what I'm doing!"
     _, True, False -> "Whoa, chill out!"
