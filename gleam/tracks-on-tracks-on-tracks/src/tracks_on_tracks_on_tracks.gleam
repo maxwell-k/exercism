@@ -1,23 +1,34 @@
+import gleam/list.{fold, reverse}
+
 pub fn new_list() -> List(String) {
-  todo
+  []
 }
 
 pub fn existing_list() -> List(String) {
-  todo
+  ["Gleam", "Go", "TypeScript"]
 }
 
 pub fn add_language(languages: List(String), language: String) -> List(String) {
-  todo
+  [language, ..languages]
 }
 
 pub fn count_languages(languages: List(String)) -> Int {
-  todo
+  fold(languages, 0, fn(acc, _) { acc + 1 })
 }
 
 pub fn reverse_list(languages: List(String)) -> List(String) {
-  todo
+  reverse(languages)
 }
 
 pub fn exciting_list(languages: List(String)) -> Bool {
-  todo
+  case languages {
+    [first, ..] if first == "Gleam" -> True
+    [_, second] if second == "Gleam" -> True
+    [_, second, _] if second == "Gleam" -> True
+    _ -> False
+  }
+}
+
+pub fn main() {
+  echo count_languages(["OCaml", "Elixir"])
 }
