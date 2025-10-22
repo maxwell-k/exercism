@@ -21,7 +21,7 @@ pub type Activity {
   Chill
   Movie(Genre)
   Restaurant(Cuisine)
-  Walk(Int)
+  Walk(kilometre: Int)
 }
 
 pub fn rate_activity(activity: Activity) -> Approval {
@@ -29,8 +29,8 @@ pub fn rate_activity(activity: Activity) -> Approval {
     Movie(Romance) -> Yes
     Restaurant(Korean) -> Yes
     Restaurant(Turkish) -> Maybe
-    Walk(i) if i > 11 -> Yes
-    Walk(i) if i > 6 -> Maybe
+    Walk(kilometre) if kilometre > 11 -> Yes
+    Walk(kilometre) if kilometre > 6 -> Maybe
     _ -> No
   }
 }
