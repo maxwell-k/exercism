@@ -1,5 +1,5 @@
-import gleam/int.{add, floor_divide, random}
-import gleam/list.{drop, fold, sort}
+import gleam/int.{floor_divide, random, sum}
+import gleam/list.{drop, sort}
 import gleam/result.{unwrap}
 
 pub type Character {
@@ -20,15 +20,15 @@ pub fn generate_character() -> Character {
     charisma: ability(),
     constitution:,
     dexterity: ability(),
+    hitpoints: 10 + modifier(constitution),
     intelligence: ability(),
     strength: ability(),
     wisdom: ability(),
-    hitpoints: 10 + modifier(constitution),
   )
 }
 
 pub fn modifier(score: Int) -> Int {
-  unwrap(floor_divide(score - 10, 2), 0)
+  floor_divide(score - 10, 2) |> unwrap(0)
 }
 
 pub fn ability() -> Int {
@@ -36,5 +36,5 @@ pub fn ability() -> Int {
   [roll(), roll(), roll(), roll()]
   |> sort(by: int.compare)
   |> drop(1)
-  |> fold(0, add)
+  |> sum
 }
