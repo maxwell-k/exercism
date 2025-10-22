@@ -1,4 +1,4 @@
-import gleam/list.{fold, reverse}
+import gleam/list
 
 pub fn new_list() -> List(String) {
   []
@@ -13,18 +13,18 @@ pub fn add_language(languages: List(String), language: String) -> List(String) {
 }
 
 pub fn count_languages(languages: List(String)) -> Int {
-  fold(languages, 0, fn(acc, _) { acc + 1 })
+  list.length(languages)
 }
 
 pub fn reverse_list(languages: List(String)) -> List(String) {
-  reverse(languages)
+  list.reverse(languages)
 }
 
 pub fn exciting_list(languages: List(String)) -> Bool {
   case languages {
-    [first, ..] if first == "Gleam" -> True
-    [_, second] if second == "Gleam" -> True
-    [_, second, _] if second == "Gleam" -> True
+    ["Gleam", ..] -> True
+    [_, "Gleam"] -> True
+    [_, "Gleam", _] -> True
     _ -> False
   }
 }
