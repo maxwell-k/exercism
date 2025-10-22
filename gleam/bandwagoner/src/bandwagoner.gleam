@@ -31,12 +31,9 @@ pub fn is_same_team(home_team: Team, away_team: Team) -> Bool {
 }
 
 pub fn root_for_team(team: Team) -> Bool {
-  case team {
-    Team(_, Coach("Gregg Popovich", _), _) -> True
-    Team("Chicago Bulls", Coach(_, _), _) -> True
-    Team(_, Coach(_, True), _) -> True
-    Team(_, Coach(_, _), Stats(wins, _)) if wins >= 60 -> True
-    Team(_, Coach(_, _), Stats(wins, losses)) if losses >= wins -> True
-    _ -> False
-  }
+  team.coach.name == "Gregg Popovich"
+  || team.name == "Chicago Bulls"
+  || team.coach.former_player
+  || team.stats.wins >= 60
+  || team.stats.losses > team.stats.wins
 }
