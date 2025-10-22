@@ -10,3 +10,6 @@
       community.general.copr: { name: frostyx/gleam }
     - name: Install gleam
       ansible.builtin.package: { name: gleam }
+    - name: Install entr and tig for convenience
+      ansible.builtin.package: { name: "{{ item }}" }
+      loop: [entr, tig]
