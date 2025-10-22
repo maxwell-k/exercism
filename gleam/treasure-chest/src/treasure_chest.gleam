@@ -11,8 +11,8 @@ pub fn get_treasure(
   chest: TreasureChest(treasure),
   password: String,
 ) -> UnlockResult(treasure) {
-  case password {
-    _ if password == chest.password -> Unlocked(chest.treasure)
-    _ -> WrongPassword
+  case chest.password == password {
+    True -> Unlocked(chest.treasure)
+    False -> WrongPassword
   }
 }
