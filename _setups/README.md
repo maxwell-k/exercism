@@ -1,8 +1,23 @@
+<!-- vim: set filetype=markdown.markdown-toc : -->
+
 # README
 
 Instructions to setup an Incus container — `g1` — to learn Gleam with Exercism.
 
+<!-- toc -->
+
+- [Launch and keep a standard `vimfiles` container](#launch-and-keep-a-standard-vimfiles-container)
+- [Rename from `c1` to `g1`](#rename-from-c1-to-g1)
+- [Install packaged software](#install-packaged-software)
+- [Install `dotfiles`](#install-dotfiles)
+- [Start the first exercise](#start-the-first-exercise)
+- [Optionally install packaged software for Dart](#optionally-install-packaged-software-for-dart)
+
+<!-- tocstop -->
+
 ## Launch and keep a standard `vimfiles` container
+
+[maxwell-k/vimfiles]: https://codeberg.org/maxwell-k/vimfiles
 
 Commands to use [maxwell-k/vimfiles] to launch with a container with vim
 configured:
@@ -31,10 +46,10 @@ Command to update the host name:
 Command to check that Ansible can connect:
 
     ansible \
-        --connection=community.general.incus \
-        --inventory=g1, \
-        --module-name ping \
-        all
+      --connection=community.general.incus \
+      --inventory=g1, \
+      --module-name ping \
+      all
 
 Command to run the playbook:
 
@@ -48,7 +63,7 @@ Command to start an interactive shell:
 
 Follow the three steps in <https://github.com/maxwell-k/dotfiles/>
 
-## Start the first Exercism exercise
+## Start the first exercise
 
 Host commands to clone a repository to work in:
 
@@ -69,4 +84,8 @@ Command to download the first exercise:
 
     exercism download --track=gleam --exercise=hello-world
 
-[maxwell-k/vimfiles]: https://codeberg.org/maxwell-k/vimfiles
+## Optionally install packaged software for Dart
+
+Command to run the playbook:
+
+    ./dart.yaml

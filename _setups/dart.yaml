@@ -1,0 +1,15 @@
+#!/usr/bin/env -S ansible-playbook -c community.general.incus -i g1,
+- name: Install Exercism and Gleam on Fedora Linux
+  hosts: all
+  tasks:
+    - name: Install exercism
+      ansible.builtin.package: { name: exercism }
+    - name: Install a pre-requisite for community.general.copr
+      ansible.builtin.package: { name: dnf-plugins-core }
+    - name: Install and enable a Copr that includes Dart
+      community.general.copr: { name: albertop/dart }
+    - name: Install Dart
+      ansible.builtin.package: { name: dart }
+    - name: Install entr and tig for convenience
+      ansible.builtin.package: { name: "{{ item }}" }
+      loop: [entr, tig]
