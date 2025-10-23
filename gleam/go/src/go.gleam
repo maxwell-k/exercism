@@ -14,11 +14,12 @@ pub type Game {
   )
 }
 
-fn change(player: Player) -> Player {
-  case player {
+fn change_player(game: Game) -> Game {
+  let player = case game.player {
     White -> Black
     Black -> White
   }
+  Game(..game, player:)
 }
 
 pub fn apply_rules(
@@ -28,10 +29,12 @@ pub fn apply_rules(
   rule3: fn(Game) -> Result(Game, String),
   rule4: fn(Game) -> Result(Game, String),
 ) -> Game {
-  let result =
-    game |> rule1 |> result.map(rule2) |> result.try(rule3) |> result.try(rule4)
-  case result {
-    Ok(new_game) -> Game(..new_game, player: change(game.player))
-    Error(error) -> Game(..game, error:)
-  }
+  game
+  |> rule1
+  |> result.map(rule2)
+  |> result.try(rule3)
+  |> result.try(rule4)
+  |> result.map(change_player)
+  |> result.map_error(fn(error) { Game(..game, error:) })
+  |> result.unwrap_both
 }
