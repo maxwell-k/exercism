@@ -1,9 +1,10 @@
 import gleam/list
+import gleam/pair
 
 pub fn place_location_to_treasure_location(
   place_location: #(String, Int),
 ) -> #(Int, String) {
-  #(place_location.1, place_location.0)
+  pair.swap(place_location)
 }
 
 pub fn treasure_location_matches_place_location(
@@ -17,9 +18,10 @@ pub fn count_place_treasures(
   place: #(String, #(String, Int)),
   treasures: List(#(String, #(Int, String))),
 ) -> Int {
-  list.filter(treasures, fn(x) {
-    treasure_location_matches_place_location(place.1, x.1)
-  })
+  let keeping = fn(x) { treasure_location_matches_place_location(place.1, x) }
+  treasures
+  |> list.map(pair.second)
+  |> list.filter(keeping)
   |> list.length
 }
 
