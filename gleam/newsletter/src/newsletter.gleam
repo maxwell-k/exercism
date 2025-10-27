@@ -7,17 +7,17 @@ pub fn read_emails(path: String) -> Result(List(String), Nil) {
   simplifile.read(path)
   |> result.map(string.trim)
   |> result.map(fn(i) { string.split(i, "\n") })
-  |> result.map_error(fn(_) { Nil })
+  |> result.replace_error(Nil)
 }
 
 pub fn create_log_file(path: String) -> Result(Nil, Nil) {
   simplifile.create_file(path)
-  |> result.map_error(fn(_) { Nil })
+  |> result.replace_error(Nil)
 }
 
 pub fn log_sent_email(path: String, email: String) -> Result(Nil, Nil) {
   simplifile.append(email <> "\n", to: path)
-  |> result.map_error(fn(_) { Nil })
+  |> result.replace_error(Nil)
 }
 
 pub fn send_newsletter(
