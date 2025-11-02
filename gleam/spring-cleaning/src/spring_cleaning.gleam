@@ -11,6 +11,6 @@ pub fn remove_team_prefix(team: String) -> String {
 }
 
 pub fn split_region_and_team(combined: String) -> #(String, String) {
-  let assert Ok(result) = string.split_once(combined, ",")
-  #(result.0, remove_team_prefix(result.1))
+  let assert Ok(#(region, team)) = string.split_once(combined, ",")
+  #(region, remove_team_prefix(team))
 }
