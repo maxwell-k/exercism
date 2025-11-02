@@ -1,11 +1,16 @@
+import gleam/string
+
 pub fn extract_error(problem: Result(a, b)) -> b {
-  todo
+  let assert Error(text) = problem
+  text
 }
 
 pub fn remove_team_prefix(team: String) -> String {
-  todo
+  let assert "Team " <> name = team
+  name
 }
 
 pub fn split_region_and_team(combined: String) -> #(String, String) {
-  todo
+  let assert Ok(result) = string.split_once(combined, ",")
+  #(result.0, remove_team_prefix(result.1))
 }
