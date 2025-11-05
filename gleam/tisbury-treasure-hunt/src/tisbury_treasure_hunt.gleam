@@ -18,10 +18,9 @@ pub fn count_place_treasures(
   place: #(String, #(String, Int)),
   treasures: List(#(String, #(Int, String))),
 ) -> Int {
-  let keeping = fn(x) { treasure_location_matches_place_location(place.1, x) }
   treasures
   |> list.map(pair.second)
-  |> list.filter(keeping)
+  |> list.filter(treasure_location_matches_place_location(place.1, _))
   |> list.length
 }
 
