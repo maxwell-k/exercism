@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/result
 import gleam/set.{type Set}
 import gleam/string
 
@@ -17,39 +18,24 @@ pub fn trade_card(
 ) -> #(Bool, Set(String)) {
   let possible = set.contains(collection, my_card)
   let worth_doing = !set.contains(collection, their_card)
-  let result = set.insert(collection, their_card) |> set.delete(my_card)
+  let result = collection |> set.insert(their_card) |> set.delete(my_card)
   #(possible && worth_doing, result)
 }
 
-fn all_cards(collections: List(Set(String))) -> Set(String) {
-  collections
-  |> list.map(set.to_list)
-  |> list.flatten
-  |> set.from_list
-}
-
 pub fn boring_cards(collections: List(Set(String))) -> List(String) {
-  let all = fn(card) {
-    list.all(collections, fn(collection) { set.contains(collection, card) })
-  }
   collections
-  |> all_cards
+  |> list.reduce(set.intersection)
+  |> result.unwrap(set.new())
   |> set.to_list
-  |> list.filter(all)
   |> list.sort(string.compare)
 }
 
 pub fn total_cards(collections: List(Set(String))) -> Int {
   collections
-  |> all_cards
+  |> list.fold(set.new(), set.union)
   |> set.size
 }
 
 pub fn shiny_cards(collection: Set(String)) -> Set(String) {
-  set.filter(collection, fn(x) {
-    case x {
-      "Shiny " <> _ -> True
-      _ -> False
-    }
-  })
+  collection |> set.filter(string.starts_with(_, "Shiny "))
 }
