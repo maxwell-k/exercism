@@ -19,6 +19,6 @@ fn paired(open: List(String), brackets: List(String)) {
 pub fn is_paired(value: String) -> Bool {
   value
   |> string.to_graphemes()
-  |> list.filter(fn(i) { string.contains(brackets, i) })
+  |> list.filter(string.contains(brackets, _))
   |> paired([], _)
 }
