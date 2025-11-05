@@ -18,7 +18,7 @@ fn to_position(letter: String) -> Int {
 
 fn from_position(position: Int) -> String {
   string.utf_codepoint(a + position)
-  |> result.map(fn(input) { [input] })
+  |> result.map(list.wrap)
   |> result.map(string.from_utf_codepoints)
   |> result.unwrap("A")
 }
@@ -31,18 +31,19 @@ fn text(position: Int) -> String {
   }
 }
 
-fn diamond(letter: String) -> String {
+pub fn build(letter: String) -> String {
   let max = to_position(letter)
   let padding = fn(i) { string.repeat(" ", max - i) }
-  [list.range(0, max), list.range(max - 1, 0)]
-  |> list.flatten
+  positions(max)
   |> list.map(fn(i) { padding(i) <> text(i) <> padding(i) })
   |> string.join("\n")
 }
 
-pub fn build(letter: String) -> String {
-  case letter {
-    "A" -> "A"
-    _ -> diamond(letter)
+fn positions(max: Int) -> List(Int) {
+  case max {
+    0 -> [0]
+    _ ->
+      list.range(0, max)
+      |> list.append(list.range(max - 1, 0))
   }
 }
