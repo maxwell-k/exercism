@@ -1,4 +1,5 @@
 import gleam/list
+import gleam/result
 
 pub type Color {
   Black
@@ -14,14 +15,10 @@ pub type Color {
 }
 
 pub fn code(color: Color) -> Int {
-  let find = fn(acc: Int, item: Color, index: Int) {
-    acc
-    + case item == color {
-      True -> index
-      False -> 0
-    }
-  }
-  colors() |> list.index_fold(0, find)
+  colors()
+  |> list.index_map(fn(b, i) { #(b, i) })
+  |> list.key_find(color)
+  |> result.unwrap(0)
 }
 
 pub fn colors() -> List(Color) {
