@@ -1,20 +1,25 @@
 class Bob {
-  bool _yell(String me) => me != me.toLowerCase() && me == me.toUpperCase();
-  bool _question(String me) => me.endsWith("?");
+  String response(String input) {
+    final message = Message(input);
 
-  String response(String message) {
-    final me = message.trim();
-
-    if (_yell(me) && _question(me)) {
+    if (message.isAYell && message.isAQuestion) {
       return "Calm down, I know what I'm doing!";
-    } else if (_yell(me)) {
+    } else if (message.isAYell) {
       return "Whoa, chill out!";
-    } else if (_question(me)) {
+    } else if (message.isAQuestion) {
       return "Sure.";
-    } else if (me.isEmpty) {
+    } else if (message.isSilence) {
       return "Fine. Be that way!";
     }
 
     return "Whatever.";
   }
+}
+
+extension type Message._(String message) {
+  Message(String input) : message = input.trim();
+  bool get isAQuestion => message.endsWith("?");
+  bool get isSilence => message.isEmpty;
+  bool get isAYell =>
+      message != message.toLowerCase() && message == message.toUpperCase();
 }
