@@ -16,7 +16,11 @@ class Bob {
   }
 }
 
-extension type Message._(String message) {
+// On later versions of Dart the two lines below can be replaced with:
+// extension type Message._(String message) {
+// see https://dart.dev/language/extension-types
+class Message {
+  String message;
   Message(String input) : message = input.trim();
   bool get isAQuestion => message.endsWith("?");
   bool get isSilence => message.isEmpty;
