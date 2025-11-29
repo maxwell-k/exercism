@@ -7,9 +7,8 @@ pub fn valid(value: String) -> Bool {
   let digits =
     value
     |> string.replace(" ", "")
-    |> string.split("")
-    |> list.map(int.parse)
-    |> result.all
+    |> string.to_graphemes
+    |> list.try_map(int.parse)
     |> result.unwrap([])
   let sum =
     digits
@@ -28,9 +27,8 @@ pub fn valid(value: String) -> Bool {
       }
     })
     |> int.sum
-  case list.length(digits) {
-    0 -> False
-    1 -> False
-    _ -> sum % 10 == 0
+  case list.length(digits) > 1 {
+    True -> sum % 10 == 0
+    False -> False
   }
 }
