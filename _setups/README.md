@@ -12,6 +12,7 @@ Instructions to setup an Incus container — `g1` — to learn Gleam with Exerci
 - [Install `dotfiles`](#install-dotfiles)
 - [Start the first exercise](#start-the-first-exercise)
 - [Optionally install packaged software for Dart](#optionally-install-packaged-software-for-dart)
+- [Optionally install Lua tooling](#optionally-install-lua-tooling)
 
 <!-- tocstop -->
 
@@ -89,3 +90,11 @@ Command to download the first exercise:
 Command to run the playbook:
 
     ./dart.yaml
+
+## Optionally install Lua tooling
+
+Commands to install [busted]:
+
+    sudo dnf install --assumeyes lua-devel gcc luarocks \
+    && luarocks install --local busted \
+    && ln -s ~/.luarocks/bin/busted ~/.local/bin/busted
