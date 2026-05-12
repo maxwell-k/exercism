@@ -5,11 +5,8 @@ class NucleotideCount {
     Map<String, int> result = {"A": 0, "C": 0, "G": 0, "T": 0};
     strand.split("").forEach((i) {
       int? before = result[i];
-      if (before != null) {
-        result[i] = before + 1;
-      } else {
-        throw InvalidNucleotideException();
-      }
+      if (before == null) throw InvalidNucleotideException();
+      result[i] = before + 1;
     });
     return result;
   }
