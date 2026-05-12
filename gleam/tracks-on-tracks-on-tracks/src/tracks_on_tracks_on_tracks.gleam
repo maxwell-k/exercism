@@ -28,7 +28,3 @@ pub fn exciting_list(languages: List(String)) -> Bool {
     _ -> False
   }
 }
-
-pub fn main() {
-  echo count_languages(["OCaml", "Elixir"])
-}

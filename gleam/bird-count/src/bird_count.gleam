@@ -1,7 +1,3 @@
-pub fn main() {
-  echo increment_day_count([])
-}
-
 pub fn today(days: List(Int)) -> Int {
   case days {
     [] -> 0
