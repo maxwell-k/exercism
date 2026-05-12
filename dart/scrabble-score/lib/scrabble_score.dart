@@ -15,8 +15,8 @@ int score(String word) {
         letters.split(', ').forEach((letter) => scores[letter] = score),
   );
 
-  return Iterable<int?>.generate(
-    word.length,
-    (i) => scores[word[i].toUpperCase()],
-  ).fold(0, (sum, i) => sum + (i ?? 0));
+  return word
+      .toUpperCase()
+      .split("")
+      .fold(0, (acc, i) => acc + (scores[i] ?? 0));
 }
