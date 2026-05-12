@@ -1,4 +1,1 @@
-String reverse() {
-  // Replace the throw call and put your code here
-  throw UnimplementedError();
-}
+String reverse(String value) => value.split('').reversed.join('');
