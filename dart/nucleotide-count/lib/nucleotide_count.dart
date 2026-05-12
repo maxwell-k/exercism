@@ -1,5 +1,16 @@
-// Implement a custom InvalidNucleotideException exception
+class InvalidNucleotideException implements Exception {}
 
 class NucleotideCount {
-  // Put your code here
+  Map<String, int> count(String strand) {
+    Map<String, int> result = {"A": 0, "C": 0, "G": 0, "T": 0};
+    for (var i in strand.split("")) {
+      int? before = result[i];
+      if (before == null) {
+        throw InvalidNucleotideException();
+      } else {
+        result[i] = before + 1;
+      }
+    }
+    return result;
+  }
 }
