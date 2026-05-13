@@ -9,10 +9,9 @@ pub type Planet {
   Neptune
 }
 
-const period = 31_557_600.0
-
 pub fn age(planet: Planet, seconds: Float) -> Float {
-  let duration = case planet {
+  seconds
+  /. case planet {
     Earth -> 1.0
     Mercury -> 0.2408467
     Venus -> 0.61519726
@@ -22,5 +21,5 @@ pub fn age(planet: Planet, seconds: Float) -> Float {
     Uranus -> 84.016846
     Neptune -> 164.79132
   }
-  seconds /. { period *. duration }
+  /. 31_557_600.0
 }
