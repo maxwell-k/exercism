@@ -15,10 +15,8 @@ class Allergies {
   static final List<String> allergies = Allergy.values.map(_describe).toList();
 
   bool allergicTo(String item, int score) =>
-      (score >> allergies.indexOf(item)) % 2 == 1;
+      score >> allergies.indexOf(item) & 1 == 1;
 
-  List<String> list(int score) => Allergy.values
-      .map(_describe)
-      .where((item) => allergicTo(item, score))
-      .toList();
+  List<String> list(int score) =>
+      allergies.where((item) => allergicTo(item, score)).toList();
 }
