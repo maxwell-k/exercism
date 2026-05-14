@@ -1,4 +1,5 @@
 import gleam/int
+import gleam/list
 
 pub type Allergen {
   Eggs
@@ -43,16 +44,5 @@ pub fn allergic_to(allergen: Allergen, score: Int) -> Bool {
 }
 
 pub fn list(score: Int) -> List(Allergen) {
-  do_list(score, allergens)
-}
-
-fn do_list(score: Int, allergens: List(Allergen)) -> List(Allergen) {
-  case allergens {
-    [first, ..rest] ->
-      case allergic_to(first, score) {
-        True -> [first, ..do_list(score, rest)]
-        False -> do_list(score, rest)
-      }
-    [] -> []
-  }
+  allergens |> list.filter(fn(allergen) { allergic_to(allergen, score) })
 }
