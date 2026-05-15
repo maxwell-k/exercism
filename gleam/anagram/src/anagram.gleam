@@ -3,15 +3,16 @@ import gleam/string
 
 pub fn find_anagrams(word: String, candidates: List(String)) -> List(String) {
   let lowercase = word |> string.lowercase
-  let letters =
-    lowercase |> string.to_graphemes |> list.sort(by: string.compare)
+  let arrange = fn(x) {
+    string.to_graphemes(x) |> list.sort(by: string.compare)
+  }
+  let letters = arrange(lowercase)
   candidates
-  |> list.filter(fn(candidate) {
-    candidate
-    |> string.lowercase
-    |> string.to_graphemes
-    |> list.sort(by: string.compare)
-    == letters
+  |> list.filter(fn(mixedcase) {
+    let candidate = string.lowercase(mixedcase)
+    case candidate == lowercase {
+      True -> False
+      False -> arrange(candidate) == letters
+    }
   })
-  |> list.filter(fn(candidate) { string.lowercase(candidate) != lowercase })
 }
