@@ -5,8 +5,8 @@ import gleam/string
 pub fn to_rna(dna: String) -> Result(String, Nil) {
   dna
   |> string.to_graphemes
-  |> list.map(fn(i) {
-    case i {
+  |> list.try_map(fn(nucleotide) {
+    case nucleotide {
       "G" -> Ok("C")
       "C" -> Ok("G")
       "T" -> Ok("A")
@@ -14,6 +14,5 @@ pub fn to_rna(dna: String) -> Result(String, Nil) {
       _ -> Error(Nil)
     }
   })
-  |> result.all
-  |> result.map(fn(x) { string.join(x, "") })
+  |> result.map(string.concat)
 }
