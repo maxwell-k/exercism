@@ -22,8 +22,7 @@ fn last(input: List(Bool)) -> List(Bool) {
 
 pub fn abbreviate(phrase phrase: String) -> String {
   let letters = phrase |> string.uppercase |> string.to_graphemes
-  list.zip(letters, [" ", ..letters] |> list.map(separator) |> last)
-  |> list.filter(fn(x) { x.1 })
-  |> list.map(fn(x) { x.0 })
-  |> string.join("")
+  list.zip([" ", ..letters] |> list.map(separator) |> last, letters)
+  |> list.key_filter(True)
+  |> string.concat
 }
