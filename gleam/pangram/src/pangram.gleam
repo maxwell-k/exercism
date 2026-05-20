@@ -8,7 +8,7 @@ pub fn is_pangram(sentence: String) -> Bool {
   |> string.lowercase
   |> string.to_graphemes
   |> list.unique
-  |> list.filter(fn(i) { string.contains(letters, i) })
+  |> list.filter(string.contains(letters, _))
   |> list.length
   == string.length(letters)
 }
