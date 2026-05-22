@@ -1,9 +1,11 @@
 class ArmstrongNumbers {
   bool isArmstrongNumber(String digits) {
-    BigInt sum = BigInt.from(0);
-    for (int i = 0; i < digits.length; i++) {
-      sum += BigInt.parse(digits[i]).pow(digits.length);
-    }
+    BigInt sum = digits
+        .split('')
+        .fold(
+          BigInt.zero,
+          (sum, digit) => sum + BigInt.parse(digit).pow(digits.length),
+        );
     return BigInt.parse(digits) == sum;
   }
 }
