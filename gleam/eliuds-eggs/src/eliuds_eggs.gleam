@@ -3,9 +3,8 @@ pub fn egg_count(number: Int) -> Int {
 }
 
 fn do_egg_count(number: Int, acc acc: Int) -> Int {
-  let remainder = number % 2
-  case number < 2 {
-    True -> acc + remainder
-    False -> do_egg_count(number / 2, acc + remainder)
+  case number {
+    0 -> acc
+    _ -> do_egg_count(number / 2, acc + number % 2)
   }
 }
