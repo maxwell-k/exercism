@@ -1,5 +1,5 @@
 class EggCounter {
   int count(int number) {
-    return number == 0 ? 0 : number % 2 + count(number ~/ 2);
+    return number == 0 ? 0 : (number & 1) + count(number >> 1);
   }
 }
