@@ -13,16 +13,13 @@ fn parse(characters: List(String)) -> List(Result(Int, Nil)) {
 
 pub fn is_valid(isbn: String) -> Bool {
   let without_hyphens = isbn |> string.replace("-", "")
-  let digits =
-    case string.length(without_hyphens) {
-      10 -> without_hyphens |> string.to_graphemes |> parse
-      _ -> [Error(Nil)]
-    }
-    |> result.all
-  case digits {
-    Ok(x) -> {
-      0 == { x |> list.index_map(fn(x, i) { x * { 10 - i } }) |> int.sum } % 11
-    }
-    _ -> False
+  case string.length(without_hyphens) {
+    10 -> without_hyphens |> string.to_graphemes |> parse
+    _ -> [Error(Nil)]
   }
+  |> result.all
+  |> result.map(list.index_map(_, fn(x, i) { x * { 10 - i } }))
+  |> result.map(int.sum)
+  |> result.map(fn(i) { i % 11 == 0 })
+  |> result.unwrap(False)
 }
