@@ -6,9 +6,6 @@ bool isValid(String isbn) {
   final List<int?> digits = characters.map(int.tryParse).toList();
   if (digits.indexOf(null) >= 0) return false;
 
-  return Iterable<int>.generate(
-            10,
-          ).fold(0, (sum, i) => sum + digits[i]! * (10 - i)) %
-          11 ==
-      0;
+  final add_digit = (int sum, int i) => sum + digits[i]! * (10 - i);
+  return Iterable<int>.generate(10).fold(0, add_digit) % 11 == 0;
 }
