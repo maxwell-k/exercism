@@ -1,29 +1,29 @@
 import gleam/int
-import gleam/result
 
 pub type Clock {
-  Clock(hour: Int, minutes: Int)
+  Clock(minutes: Int)
 }
 
-fn above(number: Int, step: Int) -> Int {
-  case number < 0 {
-    True -> number |> int.modulo(step) |> result.unwrap(number)
-    _ -> number
+// 24 * 60
+const day = 1440
+
+fn modulo_day(dividend: Int) -> Int {
+  case dividend % day {
+    remainder if remainder < 0 -> remainder + day
+    remainder -> remainder
   }
 }
 
 pub fn create(hour hour: Int, minute minute: Int) -> Clock {
-  let minutes = above(minute, 60)
-  let contribution = int.floor_divide(minute, 60) |> result.unwrap(minute)
-  Clock({ above(hour + contribution, 24) } % 24, minutes % 60)
+  Clock({ hour * 60 + minute } |> modulo_day)
 }
 
 pub fn add(clock: Clock, minutes minutes: Int) -> Clock {
-  create(clock.hour, clock.minutes + minutes)
+  Clock({ clock.minutes + minutes } |> modulo_day)
 }
 
 pub fn subtract(clock: Clock, minutes minutes: Int) -> Clock {
-  create(clock.hour, clock.minutes - minutes)
+  Clock({ clock.minutes - minutes } |> modulo_day)
 }
 
 fn pad(x: Int) -> String {
@@ -35,5 +35,5 @@ fn pad(x: Int) -> String {
 }
 
 pub fn display(clock: Clock) -> String {
-  pad(clock.hour) <> ":" <> pad(clock.minutes)
+  pad(clock.minutes / 60) <> ":" <> pad(clock.minutes % 60)
 }
