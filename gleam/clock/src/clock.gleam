@@ -8,9 +8,11 @@ pub type Clock {
 const day = 1440
 
 fn modulo_day(dividend: Int) -> Int {
-  case dividend % day {
-    remainder if remainder < 0 -> remainder + day
-    remainder -> remainder
+  let remainder = dividend % day
+  remainder
+  + case remainder < 0 {
+    True -> day
+    False -> 0
   }
 }
 
