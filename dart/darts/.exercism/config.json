@@ -1,0 +1,24 @@
+{
+  "authors": [
+    "amscotti"
+  ],
+  "contributors": [
+    "kytrinyx"
+  ],
+  "files": {
+    "solution": [
+      "lib/darts.dart"
+    ],
+    "test": [
+      "test/darts_test.dart"
+    ],
+    "example": [
+      ".meta/lib/example.dart"
+    ],
+    "invalidator": [
+      "pubspec.yaml"
+    ]
+  },
+  "blurb": "Calculate the points scored in a single toss of a Darts game.",
+  "source": "Inspired by an exercise created by a professor Della Paolera in Argentina"
+}
