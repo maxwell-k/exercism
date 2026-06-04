@@ -1,5 +1,3 @@
-import 'dart:math' show pow;
-
 const colours = [
   'black',
   'brown',
@@ -15,8 +13,6 @@ const colours = [
 
 class ResistorColorDuo {
   static const int length = 2;
-  int value(List<String> input) => List.generate(
-    length,
-    (int i) => colours.indexOf(input[i]) * pow(10, length - 1 - i) as int,
-  ).fold(0, (previous, element) => previous + element);
+  int value(List<String> input) =>
+      colours.indexOf(input[0]) * 10 + colours.indexOf(input[1]);
 }
