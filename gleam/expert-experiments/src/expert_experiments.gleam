@@ -1,10 +1,7 @@
 import gleam/result
 
 pub fn with_retry(experiment: fn() -> Result(t, e)) -> Result(t, e) {
-  case experiment() {
-    Ok(x) -> Ok(x)
-    Error(_) -> experiment()
-  }
+  result.lazy_or(experiment(), experiment)
 }
 
 pub fn record_timing(
@@ -23,8 +20,8 @@ pub fn run_experiment(
   action: fn(t) -> Result(u, e),
   record: fn(t, u) -> Result(v, e),
 ) -> Result(#(String, v), e) {
-  use i <- result.try(setup())
-  use j <- result.try(action(i))
-  use k <- result.try(record(i, j))
-  Ok(#(name, k))
+  use setup_data <- result.try(setup())
+  use action_data <- result.try(action(setup_data))
+  use record_data <- result.try(record(setup_data, action_data))
+  Ok(#(name, record_data))
 }
