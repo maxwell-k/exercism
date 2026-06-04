@@ -1,4 +1,4 @@
-DateTime addGigasecondTo(final DateTime dateTime) {
-  // Replace the throw call and put your code here
-  throw UnimplementedError();
-}
+import 'dart:math' show pow;
+
+DateTime addGigasecondTo(DateTime birthDate) =>
+    birthDate.add(Duration(seconds: pow(10, 9) as int));
