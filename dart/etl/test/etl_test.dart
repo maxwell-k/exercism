@@ -7,7 +7,7 @@ void main() {
   group('ETL', () {
     test('Single letter', () {
       final legacy = {
-        '1': ['A']
+        '1': ['A'],
       };
       final result = etl.transform(legacy);
       final expected = {'a': 1};
@@ -16,31 +16,31 @@ void main() {
 
     test('Single score with multiple letters', () {
       final legacy = {
-        '1': ["A", "E", "I", "O", "U"]
+        '1': ["A", "E", "I", "O", "U"],
       };
       final result = etl.transform(legacy);
       final expected = {"a": 1, "e": 1, "i": 1, "o": 1, "u": 1};
       expect(result, equals(expected));
-    }, skip: true);
+    }, skip: false);
 
     test('Single score with multiple letters', () {
       final legacy = {
-        '1': ["A", "E", "I", "O", "U"]
+        '1': ["A", "E", "I", "O", "U"],
       };
       final result = etl.transform(legacy);
       final expected = {"a": 1, "e": 1, "i": 1, "o": 1, "u": 1};
       expect(result, equals(expected));
-    }, skip: true);
+    }, skip: false);
 
     test('Multiple scores with multiple letters', () {
       final legacy = {
         "1": ["A", "E"],
-        "2": ["D", "G"]
+        "2": ["D", "G"],
       };
       final result = etl.transform(legacy);
       final expected = {"a": 1, "d": 2, "e": 1, "g": 2};
       expect(result, equals(expected));
-    }, skip: true);
+    }, skip: false);
 
     test('Multiple scores with differing numbers of letter', () {
       final legacy = {
@@ -50,7 +50,7 @@ void main() {
         "4": ["F", "H", "V", "W", "Y"],
         "5": ["K"],
         "8": ["J", "X"],
-        "10": ["Q", "Z"]
+        "10": ["Q", "Z"],
       };
       final result = etl.transform(legacy);
       final expected = {
@@ -79,9 +79,9 @@ void main() {
         "w": 4,
         "x": 8,
         "y": 4,
-        "z": 10
+        "z": 10,
       };
       expect(result, equals(expected));
-    }, skip: true);
+    }, skip: false);
   });
 }
