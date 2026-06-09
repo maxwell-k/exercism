@@ -1,3 +1,4 @@
+import gleam/bool
 import gleam/list
 import gleam/result
 import gleam/string
@@ -15,10 +16,7 @@ pub fn encode(
   a a: Int,
   b b: Int,
 ) -> Result(String, Error) {
-  use _ <- result.map(case is_coprime(a) {
-    True -> Ok(Nil)
-    False -> Error(KeyNotCoprime(a, 26))
-  })
+  use <- bool.guard(!is_coprime(a), Error(KeyNotCoprime(a, 26)))
   plaintext
   |> string.lowercase
   |> string.to_utf_codepoints
@@ -34,6 +32,7 @@ pub fn encode(
   |> result.values
   |> string.from_utf_codepoints
   |> pad
+  |> Ok
 }
 
 pub fn decode(
@@ -41,10 +40,7 @@ pub fn decode(
   a a: Int,
   b b: Int,
 ) -> Result(String, Error) {
-  use mmi <- result.map(case is_coprime(a) {
-    True -> Ok(do_mmi(list.range(1, m), a))
-    False -> Error(KeyNotCoprime(a, 26))
-  })
+  use <- bool.guard(!is_coprime(a), Error(KeyNotCoprime(a, 26)))
   ciphertext
   |> string.replace(" ", "")
   |> string.to_utf_codepoints
@@ -52,20 +48,20 @@ pub fn decode(
   |> list.map(fn(x) {
     case is_digit(x) {
       True -> x
-      False -> {
-        let remainder = { mmi * { x - offset - b } } % m
-        offset
-        + remainder
-        + case remainder < 0 {
-          True -> m
-          False -> 0
-        }
-      }
+      False -> mod(mmi(a) * { x - offset - b }, m) + offset
     }
   })
   |> list.map(string.utf_codepoint)
   |> result.values
   |> string.from_utf_codepoints
+  |> Ok
+}
+
+fn mod(dividend: Int, by divisor: Int) -> Int {
+  case dividend % divisor {
+    x if x >= 0 -> x
+    x -> x + divisor
+  }
 }
 
 fn is_coprime(a: Int) {
@@ -84,15 +80,19 @@ fn do_is_coprime(acc: List(Int), a: Int) -> Bool {
 }
 
 fn pad(text: String) -> String {
-  let head = string.slice(text, 0, 5)
-  case string.length(text) <= 5 {
-    True -> head
-    False -> head <> " " <> pad(string.drop_start(text, 5))
+  string.slice(text, 0, 5)
+  <> case string.length(text) <= 5 {
+    True -> ""
+    False -> " " <> pad(string.drop_start(text, 5))
   }
 }
 
 fn is_digit(x: Int) -> Bool {
   x >= 48 && x <= 58
+}
+
+fn mmi(a: Int) {
+  do_mmi(list.range(1, m), a)
 }
 
 fn do_mmi(candidates: List(Int), a: Int) -> Int {
