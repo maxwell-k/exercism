@@ -1,12 +1,9 @@
 class PrimeFactors {
   List<int> factors(int value) {
-    List<int> factors = [];
+    List<int> result = [];
     for (var i = 2; i <= value; i++) {
-      while (value % i == 0) {
-        value ~/= i;
-        factors.add(i);
-      }
+      for (; value % i == 0; value ~/= i) result.add(i);
     }
-    return factors;
+    return result;
   }
 }
