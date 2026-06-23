@@ -9,19 +9,19 @@ pub type Nucleotide {
 
 pub fn encode_nucleotide(nucleotide: Nucleotide) -> Int {
   case nucleotide {
-    Adenine -> 0
-    Cytosine -> 1
-    Guanine -> 2
-    Thymine -> 3
+    Adenine -> 0b00
+    Cytosine -> 0b01
+    Guanine -> 0b10
+    Thymine -> 0b11
   }
 }
 
 pub fn decode_nucleotide(nucleotide: Int) -> Result(Nucleotide, Nil) {
   case nucleotide {
-    0 -> Ok(Adenine)
-    1 -> Ok(Cytosine)
-    2 -> Ok(Guanine)
-    3 -> Ok(Thymine)
+    0b00 -> Ok(Adenine)
+    0b01 -> Ok(Cytosine)
+    0b10 -> Ok(Guanine)
+    0b11 -> Ok(Thymine)
     _ -> Error(Nil)
   }
 }
@@ -34,13 +34,13 @@ pub fn encode(dna: List(Nucleotide)) -> BitArray {
 }
 
 pub fn decode(dna: BitArray) -> Result(List(Nucleotide), Nil) {
-  do_decode(dna) |> result.all
-}
-
-fn do_decode(dna: BitArray) -> List(Result(Nucleotide, Nil)) {
   case dna {
-    <<>> -> []
-    <<value:2, rest:bits>> -> [decode_nucleotide(value), ..do_decode(rest)]
-    _ -> [Error(Nil)]
+    <<>> -> Ok([])
+    <<first:2, rest:bits>> -> {
+      use first_decoded <- result.try(decode_nucleotide(first))
+      use rest_decoded <- result.map(decode(rest))
+      [first_decoded, ..rest_decoded]
+    }
+    _ -> Error(Nil)
   }
 }
