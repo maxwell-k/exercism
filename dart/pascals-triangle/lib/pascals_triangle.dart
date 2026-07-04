@@ -8,11 +8,11 @@ class PascalsTriangle {
 
     List<List<int>> result = rows(number - 1);
     final last = result.last;
-    result.add(
-      [1] +
-          List<int>.generate(last.length - 1, (i) => last[i] + last[i + 1]) +
-          [1],
+    final inner = List<int>.generate(
+      last.length - 1,
+      (i) => last[i] + last[i + 1],
     );
+    result.add([1, ...inner, 1]);
     return result;
   }
 }
