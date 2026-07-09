@@ -1,3 +1,4 @@
+import gleam/bool
 import gleam/int
 import gleam/list
 
@@ -8,23 +9,20 @@ pub type Command {
   Jump
 }
 
-pub fn commands(encoded_message: Int) -> List(Command) {
-  let result =
-    list.flatten([
-      check(encoded_message, 1, Wink),
-      check(encoded_message, 2, DoubleBlink),
-      check(encoded_message, 4, CloseYourEyes),
-      check(encoded_message, 8, Jump),
-    ])
-  case int.bitwise_and(encoded_message, 16) == 16 {
-    True -> list.reverse(result)
-    False -> result
-  }
-}
+const actions = [
+  #(1, Wink),
+  #(2, DoubleBlink),
+  #(4, CloseYourEyes),
+  #(8, Jump),
+]
 
-fn check(encoded_message: Int, value: Int, command: Command) -> List(Command) {
-  case int.bitwise_and(encoded_message, value) == value {
-    True -> [command]
-    False -> []
+pub fn commands(encoded_message: Int) -> List(Command) {
+  let result = {
+    use acc, a <- list.fold(actions, [])
+    use <- bool.guard(int.bitwise_and(encoded_message, a.0) == 0, acc)
+    [a.1, ..acc]
   }
+
+  use <- bool.guard(int.bitwise_and(encoded_message, 16) != 0, result)
+  list.reverse(result)
 }
