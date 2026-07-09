@@ -1,26 +1,26 @@
 import gleam/list
 
 pub fn keep(list: List(t), predicate: fn(t) -> Bool) -> List(t) {
-  do_keep([], True, list, predicate)
+  do_keep([], list, predicate)
 }
 
 pub fn discard(list: List(t), predicate: fn(t) -> Bool) -> List(t) {
-  do_keep([], False, list, predicate)
+  use t <- do_keep([], list)
+  !predicate(t)
 }
 
-fn do_keep(
-  acc: List(t),
-  expected: Bool,
-  list: List(t),
-  predicate: fn(t) -> Bool,
-) -> List(t) {
+fn do_keep(acc: List(t), list: List(t), predicate: fn(t) -> Bool) -> List(t) {
   case list {
     [] -> list.reverse(acc)
     [first, ..rest] -> {
-      case predicate(first) == expected {
-        True -> do_keep([first, ..acc], expected, rest, predicate)
-        False -> do_keep(acc, expected, rest, predicate)
-      }
+      do_keep(
+        case predicate(first) {
+          True -> [first, ..acc]
+          False -> acc
+        },
+        rest,
+        predicate,
+      )
     }
   }
 }
