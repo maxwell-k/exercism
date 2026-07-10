@@ -1,5 +1,5 @@
 class PhoneNumber {
-  String? clean(String input) {
+  String clean(String input) {
     final cleaned = input.replaceAll(RegExp(r'[() -.]+'), '');
     if (RegExp(r'[@:!]').hasMatch(cleaned))
       throw FormatException('punctuations not permitted');
