@@ -1,4 +1,5 @@
 import gleam/bool
+import gleam/result
 
 pub type Error {
   NonPositiveNumber
@@ -6,16 +7,12 @@ pub type Error {
 
 pub fn steps(number: Int) -> Result(Int, Error) {
   use <- bool.guard(number < 1, Error(NonPositiveNumber))
-  do_steps(number, 0) |> Ok
-}
-
-fn do_steps(number: Int, result: Int) -> Int {
-  use <- bool.guard(number == 1, result)
-  do_steps(
-    case number % 2 {
+  use <- bool.guard(number == 1, Ok(0))
+  use count <- result.map(
+    steps(case number % 2 {
       0 -> number / 2
       _ -> 3 * number + 1
-    },
-    result + 1,
+    }),
   )
+  count + 1
 }
