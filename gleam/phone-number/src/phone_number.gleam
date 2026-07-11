@@ -45,16 +45,9 @@ pub fn letters(input: List(String)) -> Bool {
 
 pub fn clean(input: String) -> Result(String, String) {
   let cleaned = {
-    use i <- list.filter(
-      case input {
-        "+1" <> rest -> "1" <> rest
-        x -> x
-      }
-      |> string.lowercase
-      |> string.to_graphemes,
-    )
+    use i <- list.filter(input |> string.lowercase |> string.to_graphemes)
     case i {
-      "(" | ")" | " " | "-" | "." -> False
+      "(" | ")" | " " | "-" | "." | "+" -> False
       _ -> True
     }
   }
@@ -70,21 +63,17 @@ pub fn clean(input: String) -> Result(String, String) {
     11, ["1", ..rest] -> rest
     _, x -> x
   }
-  let start1 = result |> list.take(1)
-  use <- bool.guard(start1 == ["0"], Error("area code cannot start with zero"))
-  use <- bool.guard(start1 == ["1"], Error("area code cannot start with one"))
-  let start2 = result |> list.drop(3) |> list.take(1)
+  let start = result |> list.take(1)
+  use <- bool.guard(start == ["0"], Error("area code cannot start with zero"))
+  use <- bool.guard(start == ["1"], Error("area code cannot start with one"))
+  let exchange_start = result |> list.drop(3) |> list.take(1)
   use <- bool.guard(
-    start2 == ["0"],
+    exchange_start == ["0"],
     Error("exchange code cannot start with zero"),
   )
   use <- bool.guard(
-    start2 == ["1"],
+    exchange_start == ["1"],
     Error("exchange code cannot start with one"),
   )
   Ok(string.concat(result))
-}
-
-pub fn main() {
-  clean("+1 (223) 456-7890") |> echo
 }
