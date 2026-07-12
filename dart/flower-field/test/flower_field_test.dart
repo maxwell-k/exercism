@@ -11,56 +11,56 @@ void main() {
     test('no columns', () {
       final result = FlowerField(<String>['']).annotated;
       expect(result, equals(<String>['']));
-    }, skip: true);
+    }, skip: false);
 
     test('no flowers', () {
       final result = FlowerField(<String>['   ', '   ', '   ']).annotated;
       expect(result, equals(<String>['   ', '   ', '   ']));
-    }, skip: true);
+    }, skip: false);
 
     test('garden full of flowers', () {
       final result = FlowerField(<String>['***', '***', '***']).annotated;
       expect(result, equals(<String>['***', '***', '***']));
-    }, skip: true);
+    }, skip: false);
 
     test('flower surrounded by spaces', () {
       final result = FlowerField(<String>['   ', ' * ', '   ']).annotated;
       expect(result, equals(<String>['111', '1*1', '111']));
-    }, skip: true);
+    }, skip: false);
 
     test('space surrounded by flowers', () {
       final result = FlowerField(<String>['***', '* *', '***']).annotated;
       expect(result, equals(<String>['***', '*8*', '***']));
-    }, skip: true);
+    }, skip: false);
 
     test('horizontal line', () {
       final result = FlowerField(<String>[' * * ']).annotated;
       expect(result, equals(<String>['1*2*1']));
-    }, skip: true);
+    }, skip: false);
 
     test('horizontal line, flowers at edges', () {
       final result = FlowerField(<String>['*   *']).annotated;
       expect(result, equals(<String>['*1 1*']));
-    }, skip: true);
+    }, skip: false);
 
     test('vertical line', () {
       final result = FlowerField(<String>[' ', '*', ' ', '*', ' ']).annotated;
       expect(result, equals(<String>['1', '*', '2', '*', '1']));
-    }, skip: true);
+    }, skip: false);
 
     test('vertical line, flowers at edges', () {
       final result = FlowerField(<String>['*', ' ', ' ', ' ', '*']).annotated;
       expect(result, equals(<String>['*', '1', ' ', '1', '*']));
-    }, skip: true);
+    }, skip: false);
 
     test('cross', () {
       final result = FlowerField(<String>['  *  ', '  *  ', '*****', '  *  ', '  *  ']).annotated;
       expect(result, equals(<String>[' 2*2 ', '25*52', '*****', '25*52', ' 2*2 ']));
-    }, skip: true);
+    }, skip: false);
 
     test('large gardem', () {
       final result = FlowerField(<String>[' *  * ', '  *   ', '    * ', '   * *', ' *  * ', '      ']).annotated;
       expect(result, equals(<String>['1*22*1', '12*322', ' 123*2', '112*4*', '1*22*2', '111111']));
-    }, skip: true);
+    }, skip: false);
   });
 }
