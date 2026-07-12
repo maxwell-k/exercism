@@ -1,11 +1,9 @@
-bool flower(String input) => input == '*';
-
 class Offset {
   final int x, y;
   const Offset(this.x, this.y);
 }
 
-final List<Offset> offsets = const [
+const List<Offset> offsets = [
   Offset(-1, -1),
   Offset(-1, 0),
   Offset(-1, 1),
@@ -17,25 +15,30 @@ final List<Offset> offsets = const [
 ];
 
 class FlowerField {
-  final List<String> input;
+  List<String> input;
+  FlowerField(this.input);
+
+  bool flower(String input) => input == '*';
 
   int get rows => this.input.length;
   int get columns => this.rows > 0 ? input[0].length : 0;
 
-  String value(int x, int y) {
-    if (flower(this.input[y][x])) return this.input[y][x];
-    final flowers = offsets.where((o) {
-      if (x + o.x < 0 || x + o.x >= columns || y + o.y < 0 || y + o.y >= rows)
-        return false;
-      return flower(this.input[y + o.y][x + o.x]);
-    }).length;
-    return flowers > 0 ? flowers.toString() : this.input[y][x];
+  List<String> get annotated {
+    final output = List<String>.filled(this.rows, "");
+    for (int y = 0; y < rows; y++)
+      for (int x = 0; x < columns; x++) output[y] += value(x, y);
+    return output;
   }
 
-  List<String> get annotated => Iterable<String>.generate(
-    this.rows,
-    (y) => Iterable<String>.generate(this.columns, (x) => value(x, y)).join(''),
-  ).toList();
-
-  const FlowerField([List<String> this.input = const []]);
+  String value(int x, int y) {
+    if (flower(this.input[y][x])) return this.input[y][x];
+    final flowers = offsets
+        .where((o) => x + o.x >= 0)
+        .where((o) => x + o.x < columns)
+        .where((o) => y + o.y >= 0)
+        .where((o) => y + o.y < rows)
+        .where((o) => flower(this.input[y + o.y][x + o.x]))
+        .length;
+    return flowers > 0 ? flowers.toString() : this.input[y][x];
+  }
 }
