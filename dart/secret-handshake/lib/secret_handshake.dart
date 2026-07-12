@@ -1,5 +1,10 @@
 class SecretHandshake {
-  final _events = const ['wink', 'double blink', 'close your eyes', 'jump'];
+  static const _events = <String>[
+    'wink',
+    'double blink',
+    'close your eyes',
+    'jump',
+  ];
 
   List<String> commands(int message) {
     final output = <String>[];
