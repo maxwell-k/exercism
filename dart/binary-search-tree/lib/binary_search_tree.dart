@@ -5,13 +5,11 @@ class Node<T extends Comparable<T>> {
   Node(this.data);
 
   void insert(T value) {
-    bool _left = value.compareTo(data) <= 0;
-    if (_left && left == null)
-      left = Node<T>(value);
-    else if (!_left && right == null)
-      right = Node<T>(value);
-    else
-      (_left ? left : right)!.insert(value);
+    if (value.compareTo(data) <= 0) {
+      left == null ? left = Node<T>(value) : left!.insert(value);
+    } else {
+      right == null ? right = Node<T>(value) : right!.insert(value);
+    }
   }
 
   Iterable<T> get sortedData sync* {
